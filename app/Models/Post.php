@@ -23,22 +23,12 @@ class Post extends Model
     // for the others, the whole thing will fail.
 
     // Option 2 - For Mass Assign
-    protected $guarded = [];
+    // protected $guarded = [];
 
     // This is the opposite. This means, everything is fillable execept what is inside the
     // array. Everything can be "Mass Assign"
 
     protected $with = ['category', 'author'];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function author()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     public function scopeFilter($query, array $filters) // Post::newQuery()->filter()->get();
     {
@@ -58,6 +48,21 @@ class Post extends Model
         $query->when($filters['author'] ?? false, fn($query, $author)=>
         $query->whereHas('author', fn($query) =>
             $query->where('userna,e', $author)));
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

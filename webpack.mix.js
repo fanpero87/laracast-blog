@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+iconst mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
